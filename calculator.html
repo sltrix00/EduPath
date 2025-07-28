@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduPath — Калькулятор</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+    }
+
+    header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #000;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background-color: #000;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background-color: #fff;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      width: 200px;
+      padding: 1rem;
+      border: 1px solid #000;
+    }
+
+    .mobile-menu a {
+      margin-bottom: 1rem;
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 4rem 2rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td {
+      border: 1px solid #000;
+      padding: 1rem;
+    }
+
+    td:first-child {
+      font-weight: bold;
+      width: 40%;
+      background-color: #f2f2f2;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+
+    button {
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #38b6ff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    #result {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: #777;
+      font-size: 0.8rem;
+      border-top: 1px solid #000;
+      margin-top: 4rem;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .mobile-menu.show {
+        display: flex;
+      }
+
+      td {
+        display: block;
+        width: 100%;
+        border: none;
+        padding: 0.5rem 0;
+      }
+
+      td:first-child {
+        font-weight: bold;
+        background-color: transparent;
+      }
+
+      table {
+        border: none;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" onclick="window.location.href='index.html'">EduPath</div>
+    <nav>
+      <ul>
+        <li><a href="account.html">Аккаунт</a></li>
+        <li><a href="calculator.html">Калькулятор</a></li>
+        <li><a href="uni.html">Вузы</a></li>
+      </ul>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="account.html">Аккаунт</a>
+        <a href="calculator.html">Калькулятор</a>
+        <a href="uni.html">Вузы</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Калькулятор поступления</h2>
+    <form id="calcForm">
+      <table>
+        <tr>
+          <td>GPA</td>
+          <td><input type="number" step="0.01" max="4.0" placeholder="например, 3.8" /></td>
+        </tr>
+        <tr>
+          <td>SAT</td>
+          <td><input type="number" max="1600" placeholder="например, 1450" /></td>
+        </tr>
+        <tr>
+          <td>IELTS / TOEFL</td>
+          <td><input type="text" placeholder="например, IELTS 7.5 или TOEFL 100" /></td>
+        </tr>
+        <tr>
+          <td>Внеклассная активность</td>
+          <td><input type="text" placeholder="например, волонтёрство, кружки" /></td>
+        </tr>
+        <tr>
+          <td>Опыт стажировок</td>
+          <td><input type="text" placeholder="например, Astana Hub, IT компания" /></td>
+        </tr>
+        <tr>
+          <td>Желаемый университет</td>
+          <td>
+            <select>
+              <option>Выберите университет</option>
+              <option>Harvard University</option>
+              <option>Stanford University</option>
+              <option>University of Toronto</option>
+              <option>Nazarbayev University</option>
+              <option>ETH Zurich</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+      <button type="button" onclick="calculate()">Рассчитать шанс</button>
+    </form>
+
+    <div id="result"></div>
+  </main>
+
+  <footer>
+    &copy; 2025 EduPath. Все права защищены.
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('show');
+    }
+
+    function calculate() {
+      const universities = {
+        "Harvard University": "5%",
+        "Stanford University": "6%",
+        "University of Toronto": "40%",
+        "Nazarbayev University": "70%",
+        "ETH Zurich": "25%"
+      };
+
+      const select = document.querySelector("select");
+      const result = document.getElementById("result");
+      const choice = select.value;
+
+      if (universities[choice]) {
+        result.textContent = `Примерный шанс поступления: ${universities[choice]}`;
+      } else {
+        result.textContent = "Пожалуйста, выберите университет.";
+      }
+    }
+  </script>
+</body>
+</html>
